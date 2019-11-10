@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useCallback } from 'react';
+import { Hello } from './Hello';
+import { Square } from './Square';
 
 function App() {
+  const [count, setCount] = useState(0);
+  const favoriteNums = [10, 100, 1000];
+
+  const increment = useCallback(
+    n => {
+      setCount(c => c + n);
+    },
+    [setCount]
+  );
+
+  // const increment = () => {
+  //   setCount(c => c + 1);
+  // };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Hello increment={increment}></Hello>
+      <div>count: {count}</div>
+      {favoriteNums.map(n => {
+        return <Square increment={increment} n={n} key={n} />;
+      })}
     </div>
   );
 }
